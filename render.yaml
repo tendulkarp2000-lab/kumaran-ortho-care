@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: kumaran-ortho-care
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production

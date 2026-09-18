@@ -128,12 +128,73 @@
         window.App.el('div', { html: window.App.patientInfoRow(patient) }),
         window.App.el('span', { class: 'chip chip-success', text: 'Registered' })
       ),
-      window.App.el('div', { class: 'flex mt12', style: { gap: 10 } },
-        window.App.el('button', { class: 'btn btn-gold', onclick: () => registerToday(patient, null), text: '🎟 Register for Today (Queue)' })
+      window.App.el('div', { class: 'flex mt12', style: { gap: 10, flexWrap: 'wrap' } },
+        window.App.el('button', { class: 'btn btn-gold', onclick: () => registerToday(patient, null), text: '🎟 Register for Today (Queue)' }),
+        window.App.el('button', { class: 'btn btn-outline btn-sm', onclick: () => editPatientModal(patient), text: '✏ Edit Details' }),
+        window.App.el('button', { class: 'btn btn-danger btn-sm', onclick: () => deletePatientConfirm(patient), text: '🗑 Delete Patient' })
       )
     );
     result.innerHTML = '';
     result.appendChild(card);
+  }
+
+  function editPatientModal(p) {
+    const body = document.createElement('div');
+    body.innerHTML = `
+      <div class="field"><label>Patient Name</label><input class="input" id="edit-p-name" value="${window.App.esc(p.name)}" /></div>
+      <div class="field"><label>Mobile Phone</label><input class="input" id="edit-p-phone" value="${window.App.esc(p.phone)}" /></div>
+      <div class="form-row">
+        <div class="field"><label>Age</label><input class="input" type="number" id="edit-p-age" value="${p.age || 0}" /></div>
+        <div class="field"><label>Gender</label>
+          <select class="input" id="edit-p-gender">
+            <option value="Male" ${p.gender === 'Male' ? 'selected' : ''}>Male</option>
+            <option value="Female" ${p.gender === 'Female' ? 'selected' : ''}>Female</option>
+            <option value="Other" ${p.gender === 'Other' ? 'selected' : ''}>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Address</label><textarea class="input" id="edit-p-addr" rows="2">${window.App.esc(p.address || '')}</textarea></div>
+    `;
+
+    window.App.modal({
+      title: 'Edit Patient Details — ' + p.uhid,
+      bodyNode: body,
+      footer: [
+        window.App.el('button', { class: 'btn btn-outline', onclick: () => window.App.closeModal(), text: 'Cancel' }),
+        window.App.el('button', { class: 'btn btn-primary', onclick: () => saveEditPatient(p), text: '✔ Save Changes' }),
+      ],
+    });
+  }
+
+  async function saveEditPatient(p) {
+    const name = document.getElementById('edit-p-name').value.trim();
+    const phone = document.getElementById('edit-p-phone').value.trim();
+    const age = Number(document.getElementById('edit-p-age').value) || 0;
+    const gender = document.getElementById('edit-p-gender').value;
+    const address = document.getElementById('edit-p-addr').value.trim();
+
+    if (!name || !phone) return window.App.toast('Name and phone required', 'error');
+
+    try {
+      const res = await window.API.patch('/api/patients/' + p.id, { name, phone, age, gender, address });
+      window.App.closeModal();
+      window.App.toast('Patient updated successfully', 'success');
+      showSearched(res.patient, document.getElementById('reg-search-result'));
+    } catch (e) {
+      window.App.toast(e.message, 'error');
+    }
+  }
+
+  async function deletePatientConfirm(p) {
+    const ok = await window.App.confirmBox('Delete patient ' + p.name + ' (' + p.uhid + ')? This will also remove their appointments.', 'Delete Patient');
+    if (!ok) return;
+    try {
+      await window.API.delete('/api/patients/' + p.id);
+      window.App.toast('Patient deleted', 'gold');
+      document.getElementById('reg-search-result').innerHTML = '';
+    } catch (e) {
+      window.App.toast(e.message, 'error');
+    }
   }
 
   async function loadWalkinSlotInfo() {

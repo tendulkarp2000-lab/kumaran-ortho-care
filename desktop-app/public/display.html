@@ -3,61 +3,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kumaran Ortho Care — Token Display</title>
+  <title>Kumaran Ortho Care — Official TV Display</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body { height: 100%; }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: radial-gradient(ellipse at top, #14294d 0%, #0b1830 70%);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: radial-gradient(ellipse at top, #0f2550 0%, #071329 80%);
       color: #fff;
       overflow: hidden;
     }
-    .wrap { height: 100vh; display: flex; flex-direction: column; padding: 22px 34px; }
+    .wrap { height: 100vh; display: flex; flex-direction: column; padding: 18px 28px; }
     .head {
       display: flex; align-items: center; justify-content: space-between;
-      border-bottom: 3px solid #D97706; padding-bottom: 12px; margin-bottom: 18px;
+      border-bottom: 3px solid #D97706; padding-bottom: 12px; margin-bottom: 16px;
     }
-    .brand .name { font-size: 34px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
-    .brand .name em { font-style: normal; color: #FBBF24; }
-    .brand .sub { font-size: 15px; color: #7DD3FC; margin-top: 2px; }
+    .brand-logo-img { height: 58px; width: auto; border-radius: 8px; background: #fff; padding: 4px; }
     .clock { text-align: right; }
-    .clock .time { font-size: 40px; font-weight: 700; color: #FBBF24; font-variant-numeric: tabular-nums; }
-    .clock .date { font-size: 16px; color: #9FB4D6; }
-    .mid { flex: 1; display: flex; gap: 26px; min-height: 0; }
-    .calling { flex: 1.25; display: flex; flex-direction: column; background: #0f2242; border: 2px solid #1E3A66; border-radius: 22px; padding: 26px; overflow: hidden; }
-    .calling .tag { font-size: 19px; letter-spacing: 4px; color: #FBBF24; font-weight: 700; text-transform: uppercase; }
-    .calling .big-token { font-size: 190px; font-weight: 900; color: #fff; line-height: 0.95; text-shadow: 0 0 40px rgba(251,191,36,0.35); }
-    .calling .name { font-size: 46px; font-weight: 700; color: #fff; }
-    .calling .doc { font-size: 24px; color: #7DD3FC; margin-top: 6px; }
-    .calling .hint { margin-top: 10px; font-size: 17px; color: #94A9CC; }
-    .right { flex: 0.75; display: flex; flex-direction: column; gap: 18px; min-height: 0; }
-    .next-box { background: #0f2242; border: 2px solid #1E3A66; border-radius: 18px; padding: 18px 22px; }
-    .next-box .lbl { font-size: 15px; letter-spacing: 2px; color: #7DD3FC; font-weight: 700; text-transform: uppercase; }
-    .next-box .val { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
-    .next-box .tok { font-size: 64px; font-weight: 900; color: #FBBF24; }
-    .next-box .nm { font-size: 26px; font-weight: 700; }
-    .next-box .dm { font-size: 17px; color: #9FB4D6; }
-    .queue { flex: 1; background: #0f2242; border: 2px solid #1E3A66; border-radius: 18px; padding: 18px 22px; display: flex; flex-direction: column; min-height: 0; }
-    .queue .ql { font-size: 15px; letter-spacing: 2px; color: #FBBF24; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
-    table { width: 100%; border-collapse: collapse; font-size: 19px; }
-    th { text-align: left; color: #7DD3FC; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; border-bottom: 1px solid #1E3A66; }
-    td { padding: 7px 8px; border-bottom: 1px solid #16294F; }
-    td.tok { font-weight: 800; color: #FBBF24; width: 70px; }
-    .status-chip { font-size: 14px; padding: 2px 10px; border-radius: 20px; font-weight: 700; }
+    .clock .time { font-size: 38px; font-weight: 800; color: #FBBF24; font-variant-numeric: tabular-nums; }
+    .clock .date { font-size: 14px; color: #94A3B8; }
+    .mid { flex: 1; display: flex; gap: 24px; min-height: 0; }
+    .calling {
+      flex: 1.2; display: flex; flex-direction: column; justify-content: center;
+      background: linear-gradient(145deg, #0f2550 0%, #173468 100%);
+      border: 3px solid #FBBF24; border-radius: 24px; padding: 28px;
+      box-shadow: 0 0 50px rgba(251,191,36,0.25); position: relative; overflow: hidden;
+    }
+    .calling .tag { font-size: 18px; letter-spacing: 3px; color: #FBBF24; font-weight: 800; text-transform: uppercase; }
+    .calling .big-token { font-size: 160px; font-weight: 900; color: #fff; line-height: 0.95; text-shadow: 0 0 40px rgba(251,191,36,0.4); margin: 10px 0; }
+    .calling .name { font-size: 42px; font-weight: 800; color: #fff; }
+    .calling .doc { font-size: 22px; color: #60CFEC; margin-top: 6px; font-weight: 700; }
+    .calling .hint { margin-top: 14px; font-size: 16px; color: #94A3B8; background: rgba(0,0,0,0.3); padding: 10px 16px; border-radius: 12px; }
+
+    .right { flex: 0.8; display: flex; flex-direction: column; gap: 16px; min-height: 0; }
+    .next-box { background: #0f2242; border: 2px solid #1E3A66; border-radius: 18px; padding: 16px 20px; }
+    .next-box .lbl { font-size: 14px; letter-spacing: 2px; color: #60CFEC; font-weight: 700; text-transform: uppercase; }
+    .next-box .val { display: flex; align-items: center; gap: 14px; margin-top: 4px; }
+    .next-box .tok { font-size: 54px; font-weight: 900; color: #FBBF24; }
+    .next-box .nm { font-size: 24px; font-weight: 700; }
+    .next-box .dm { font-size: 15px; color: #94A3B8; }
+
+    /* Video Player Box for Hospital Awareness & Robotic Knee Replacement */
+    .video-box {
+      flex: 1; background: #000; border: 2px solid #1E3A66; border-radius: 18px;
+      overflow: hidden; position: relative; display: flex; flex-direction: column;
+    }
+    .video-title { background: #0f2242; padding: 8px 14px; font-size: 13px; font-weight: 700; color: #FBBF24; display: flex; align-items: center; justify-content: space-between; }
+    .video-content { flex: 1; position: relative; background: #0b1830; display: flex; align-items: center; justify-content: center; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 17px; }
+    th { text-align: left; color: #60CFEC; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; border-bottom: 1px solid #1E3A66; }
+    td { padding: 6px 8px; border-bottom: 1px solid #16294F; }
+    td.tok { font-weight: 800; color: #FBBF24; width: 60px; }
+    .status-chip { font-size: 13px; padding: 2px 8px; border-radius: 20px; font-weight: 700; }
     .c-called { background: #D97706; color: #fff; }
     .c-waiting { background: #1E3A66; color: #BFDBFE; }
-    .foot { margin-top: 14px; text-align: center; font-size: 15px; color: #7B90B5; }
-    .offline { position: fixed; top: 0; left: 0; right: 0; background: #B91C1C; color: #fff; text-align: center; padding: 8px; font-weight: 700; display: none; }
+    .foot { margin-top: 10px; text-align: center; font-size: 13px; color: #64748B; }
+    .offline { position: fixed; top: 0; left: 0; right: 0; background: #B91C1C; color: #fff; text-align: center; padding: 6px; font-weight: 700; display: none; z-index: 100; }
   </style>
 </head>
 <body>
   <div class="offline" id="offline">⚠ Server offline — reconnecting…</div>
   <div class="wrap">
     <header class="head">
-      <div class="brand">
-        <div class="name">Kumaran <em>Robotic</em> Ortho Care</div>
-        <div class="sub">Dr. P.L. Vijayakumar, MS Ortho — Trichy · குமரன் ரோபோடிக் எலும்பு மருத்துவமனை</div>
+      <div>
+        <img src="/assets/logo.png" class="brand-logo-img" alt="Kumaran Ortho Robotic Centre"/>
       </div>
       <div class="clock">
         <div class="time" id="clock">—</div>
@@ -69,29 +79,44 @@
       <section class="calling" id="calling">
         <div class="tag">Now Calling · இப்போது அழைப்பு</div>
         <div class="big-token" id="c-token">—</div>
-        <div class="name" id="c-name">Waiting for patients…</div>
+        <div class="name" id="c-name">காத்திருக்கிறோம்… / Waiting for patients…</div>
         <div class="doc" id="c-doc">&nbsp;</div>
-        <div class="hint">Please proceed to the consultation room | ஆலோசனை அறைக்கு வரவும்</div>
+        <div class="hint">📍 Please proceed to consultation room when your token number is called.</div>
       </section>
 
       <div class="right">
         <div class="next-box">
-          <div class="lbl">Next · அடுத்தவர்</div>
-          <div class="val"><span class="tok" id="n-token">—</span><div><div class="nm" id="n-name">—</div><div class="dm" id="n-doc">&nbsp;</div></div></div>
+          <div class="lbl">Next Up · அடுத்தவர்</div>
+          <div class="val">
+            <span class="tok" id="n-token">—</span>
+            <div><div class="nm" id="n-name">—</div><div class="dm" id="n-doc">&nbsp;</div></div>
+          </div>
         </div>
-        <div class="queue">
-          <div class="ql">Upcoming Queue · வரிசை (<span id="q-count">0</span>)</div>
-          <div style="flex:1;overflow:hidden;" id="q-list">
-            <table>
-              <thead><tr><th>Token</th><th>Patient</th><th>Doctor</th><th>Slot</th><th>Status</th></tr></thead>
-              <tbody id="q-body"></tbody>
-            </table>
+
+        <!-- Educational Video & Queue Container -->
+        <div class="video-box">
+          <div class="video-title">
+            <span>🎬 Robotic Surgery & Joint Care Awareness</span>
+            <span style="font-size:11px;color:#60CFEC;">Kumaran Ortho TV</span>
+          </div>
+          <div class="video-content" id="media-area">
+            <!-- Animated Robotic Knee Replacement Presentation Canvas -->
+            <svg viewBox="0 0 400 220" style="width:100%;height:100%;">
+              <rect width="400" height="220" fill="#0B192C"/>
+              <circle cx="200" cy="110" r="70" fill="none" stroke="#0891B2" stroke-width="2" stroke-dasharray="6,6">
+                <animateTransform attributeName="transform" type="rotate" from="0 200 110" to="360 200 110" dur="12s" repeatCount="indefinite"/>
+              </circle>
+              <path d="M 180,60 L 220,60 L 210,160 L 190,160 Z" fill="#E2E8F0" opacity="0.8"/>
+              <circle cx="200" cy="110" r="14" fill="#FBBF24"/>
+              <text x="200" y="185" fill="#60CFEC" font-size="12" font-weight="bold" text-anchor="middle">Robotic Precision Knee Surgery</text>
+              <text x="200" y="202" fill="#94A3B8" font-size="10" text-anchor="middle">Minimal Pain · Faster Recovery · Sub-millimeter Accuracy</text>
+            </svg>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="foot">Kumaran Robotic Ortho Care — Your Health, Our Mission · உங்கள் ஆரோக்கியமே எங்கள் குறிக்கோள்</div>
+    <div class="foot">Kumaran Robotic Ortho Care — Technology · Precision · Better Mobility | 123 Srirangam Main Road, Trichy</div>
   </div>
 
   <script>
@@ -109,7 +134,6 @@
       }
       clock(); setInterval(clock, 1000);
 
-      // ── Audio alert when token changes ──────────────────────
       function playBeep() {
         try {
           var ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -127,10 +151,9 @@
         } catch (e) {}
       }
 
-      // ── Text-to-speech Tamil/English announcement ───────────
       function announce(tokenNum, patientName) {
         if (!window.speechSynthesis) return;
-        var utterance = new SpeechSynthesisUtterance('Token number ' + tokenNum + ', ' + patientName + ', please proceed to the consultation room.');
+        var utterance = new SpeechSynthesisUtterance('Token number ' + tokenNum + ', ' + patientName + ', please proceed to consultation room.');
         utterance.lang = 'en-IN';
         utterance.rate = 0.85;
         utterance.volume = 1;
@@ -138,8 +161,7 @@
       }
 
       function render(data) {
-        var offline = document.getElementById('offline');
-        offline.style.display = 'none';
+        document.getElementById('offline').style.display = 'none';
 
         var now = data.nowCalling;
         document.getElementById('c-token').textContent = now ? '#' + now.tokenNumber : '—';
@@ -157,36 +179,15 @@
         document.getElementById('n-token').textContent = nxt ? '#' + nxt.tokenNumber : '—';
         document.getElementById('n-name').textContent = nxt ? nxt.patientName : '—';
         document.getElementById('n-doc').textContent = nxt ? (nxt.doctorName || '') + ' · ' + (nxt.timeSlot || '') : '';
-
-        document.getElementById('q-count').textContent = data.waitingCount || 0;
-        var rows = data.displayRows || [];
-        var waitingOnly = rows.filter(function (r) { return r.status === 'Waiting' || r.status === 'Scheduled'; });
-        var calledOnly = rows.filter(function (r) { return r.status === 'Called'; });
-        var both = calledOnly.concat(waitingOnly);
-        if (!both.length) {
-          document.getElementById('q-body').innerHTML = '<tr><td colspan="5" style="color:#7B90B5;text-align:center;padding:20px;">Queue is clear 🎉 · வரிசை காலி</td></tr>';
-          return;
-        }
-        document.getElementById('q-body').innerHTML = both.slice(0, 8).map(function (r) {
-          var chip = r.status === 'Called'
-            ? '<span class="status-chip c-called">🔔 Calling · அழைக்கப்படுகிறார்</span>'
-            : '<span class="status-chip c-waiting">⏳ Waiting</span>';
-          return '<tr><td class="tok">#' + r.tokenNumber + '</td><td>' + esc(r.patientName) + '</td>' +
-            '<td>' + esc((r.doctorName || '').replace('Dr. ', '')) + '</td><td>' + esc(r.timeSlot) + '</td><td>' + chip + '</td></tr>';
-        }).join('');
       }
 
       function flash() {
         var el = document.getElementById('calling');
-        el.style.transition = 'none';
         el.style.borderColor = '#FBBF24';
-        el.style.background = '#1a3300';
-        el.style.boxShadow = '0 0 80px rgba(251,191,36,0.6)';
+        el.style.boxShadow = '0 0 80px rgba(251,191,36,0.7)';
         setTimeout(function () {
-          el.style.transition = 'all 2s ease';
-          el.style.borderColor = '#1E3A66';
-          el.style.background = '#0f2242';
-          el.style.boxShadow = 'none';
+          el.style.borderColor = '#FBBF24';
+          el.style.boxShadow = '0 0 50px rgba(251,191,36,0.25)';
         }, 2000);
       }
 
@@ -202,7 +203,7 @@
       }
 
       poll();
-      setInterval(poll, 3000); // Poll every 3 seconds for real-time display
+      setInterval(poll, 3000);
     })();
   </script>
 </body>

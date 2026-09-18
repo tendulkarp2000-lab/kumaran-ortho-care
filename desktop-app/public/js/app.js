@@ -401,39 +401,12 @@
     };
     document.getElementById('drawer-overlay').onclick = closeDrawer;
 
-    document.getElementById('reset-data-btn').onclick = async () => {
-      const okc = await window.App.confirmBox('Reset all demo data to default? This clears all current records.', 'Reset Demo Data');
-      if (!okc) return;
-      try {
-        await window.API.post('/api/dev/reset');
-        window.App.toast('Demo data reset', 'success');
-        navigate(window.App.activeView);
-        refreshBadges();
-      } catch (e) { window.App.toast(e.message, 'error'); }
-    };
-
     const disp = document.createElement('button');
     disp.className = 'btn btn-outline btn-sm';
     disp.style.cssText = 'margin-top:8px;width:100%;';
     disp.innerHTML = '🖥 Open Display Board (TV)';
     disp.onclick = () => window.open('/display.html', '_blank');
     document.querySelector('.sidebar-footer').appendChild(disp);
-
-    const cleanBtn = document.createElement('button');
-    cleanBtn.className = 'btn btn-sm';
-    cleanBtn.style.cssText = 'margin-top:6px;width:100%;background:#FEF2F2;color:#DC2626;border:1px solid #FECACA;';
-    cleanBtn.innerHTML = '🧹 Clear Demo Data (Start Fresh)';
-    cleanBtn.onclick = async () => {
-      const okc = await window.App.confirmBox('Clear ALL demo patients & sample bills to start fresh for real patients?', 'Start Fresh');
-      if (!okc) return;
-      try {
-        await window.API.post('/api/dev/clean-all');
-        window.App.toast('All sample data cleared — System is 100% Fresh!', 'success');
-        navigate(window.App.activeView);
-        refreshBadges();
-      } catch (e) { window.App.toast(e.message, 'error'); }
-    };
-    document.querySelector('.sidebar-footer').appendChild(cleanBtn);
 
     // server badge
     fetch('/api/health').then((r) => r.json()).then(() => {

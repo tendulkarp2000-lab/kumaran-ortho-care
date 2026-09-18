@@ -503,6 +503,23 @@ app.post('/api/patients', (req, res) => {
   res.status(201).json({ patient, existing: false });
 });
 
+app.patch('/api/patients/:id', (req, res) => {
+  const p = store.patients.find((x) => x.id === Number(req.params.id));
+  if (!p) return res.status(404).json({ message: 'Patient not found' });
+  Object.assign(p, req.body || {});
+  saveStore();
+  res.json({ patient: p });
+});
+
+app.delete('/api/patients/:id', (req, res) => {
+  const id = Number(req.params.id);
+  store.patients = store.patients.filter((x) => x.id !== id);
+  // also clean appointments for deleted patient
+  store.appointments = store.appointments.filter((a) => a.patientId !== id);
+  saveStore();
+  res.json({ message: 'Patient deleted successfully' });
+});
+
 // ─── API: Appointments (mobile compatible) ───────────────────────────────────
 
 app.get('/api/appointments', (req, res) => {

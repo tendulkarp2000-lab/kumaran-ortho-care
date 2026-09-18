@@ -218,27 +218,27 @@
   function printToken(patient, appt, existing) {
     const doctor = appt.doctorName || 'Dr. P.L. Vijayakumar';
     const now = new Date().toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const room = doctor.indexOf('Prakash') > -1 ? 'Consult Room 2' : (doctor.indexOf('Revathi') > -1 ? 'Consult Room 3' : 'Consult Room 1');
+    const room = doctor.indexOf('Rajkumar') > -1 ? 'Consultation Room 2' : (doctor.indexOf('Revanth') > -1 ? 'Consultation Room 3' : 'Robotic Consult Room 1');
     const area = document.getElementById('print-area');
     area.innerHTML =
-      '<div style="font-family:Segoe UI,Arial,sans-serif;color:#111;max-width:360px;margin:0 auto;padding:16px;">' +
-      '<div style="text-align:center;border-bottom:3px solid #1B3A6B;padding-bottom:10px;margin-bottom:14px;">' +
-      '<h2 style="margin:0;color:#1B3A6B;font-size:20px;">Kumaran Robotic Ortho Care</h2>' +
-      '<p style="margin:2px 0;color:#555;font-size:11px;">Dr. P.L. Vijayakumar, MS Ortho</p>' +
-      '<p style="margin:2px 0;color:#888;font-size:10px;">123 Srirangam Main Road, Trichy - 620006</p></div>' +
-      '<div style="text-align:center;margin-bottom:12px;">' +
-      '<div style="color:#0369A1;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:2px;">OP Token' + (existing ? ' (Re-issued)' : '') + '</div>' +
-      '<div style="font-size:64px;font-weight:900;color:#1B3A6B;line-height:1;">#' + appt.tokenNumber + '</div></div>' +
-      '<table style="width:100%;font-size:13px;margin-bottom:6px;">' +
-      '<tr><td style="padding:3px 0;color:#555;">Name</td><td style="padding:3px 0;font-weight:700;">' + window.App.esc(patient.name) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">UHID</td><td style="padding:3px 0;font-weight:700;">' + window.App.esc(patient.uhid) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">Doctor</td><td style="padding:3px 0;font-weight:700;">' + window.App.esc(doctor) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">Room</td><td style="padding:3px 0;font-weight:700;">' + window.App.esc(room) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">Date</td><td style="padding:3px 0;font-weight:700;">' + window.App.fmtDate(appt.appointmentDate) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">Slot</td><td style="padding:3px 0;font-weight:700;">' + window.App.esc(appt.timeSlot) + '</td></tr>' +
-      '<tr><td style="padding:3px 0;color:#555;">Issued</td><td style="padding:3px 0;">' + now + '</td></tr></table>' +
-      '<div style="margin-top:16px;text-align:center;font-size:10px;color:#888;border-top:1px solid #ccc;padding-top:8px;">' +
-      'Please wait until your token is called | உங்கள் எண்ணைக் காத்திருங்கள்</div>' +
+      '<div style="font-family:Segoe UI,Arial,sans-serif;color:#111;max-width:400px;margin:0 auto;padding:16px;border:1px solid #E2E8F0;border-radius:12px;">' +
+      '<div style="text-align:center;border-bottom:3px solid #1B3A6B;padding-bottom:12px;margin-bottom:14px;">' +
+      '<img src="/assets/logo.png" style="max-width:320px;height:auto;margin-bottom:6px;" alt="Kumaran Ortho Robotic Centre"/><br/>' +
+      '<p style="margin:2px 0;color:#1B3A6B;font-size:11px;font-weight:700;">Technology • Precision • Better Mobility</p>' +
+      '<p style="margin:2px 0;color:#64748B;font-size:10px;">123 Srirangam Main Road, Trichy - 620006 | Ph: +91 431 234 5678</p></div>' +
+      '<div style="text-align:center;margin-bottom:12px;background:#EFF6FF;border:1px solid #BFDBFE;padding:10px;border-radius:10px;">' +
+      '<div style="color:#0369A1;font-weight:700;text-transform:uppercase;font-size:11px;letter-spacing:2px;">OPD CONSULTATION TOKEN' + (existing ? ' (Re-issued)' : '') + '</div>' +
+      '<div style="font-size:68px;font-weight:900;color:#1B3A6B;line-height:1;margin:4px 0;">#' + appt.tokenNumber + '</div>' +
+      '<div style="font-size:11px;color:#0369A1;font-weight:600;">' + window.App.fmtDate(appt.appointmentDate) + ' · ' + window.App.esc(appt.timeSlot) + '</div></div>' +
+      '<table style="width:100%;font-size:13px;margin-bottom:8px;line-height:1.6;">' +
+      '<tr><td style="color:#64748B;width:100px;">Patient Name</td><td style="font-weight:700;color:#1B3A6B;">' + window.App.esc(patient.name) + '</td></tr>' +
+      '<tr><td style="color:#64748B;">UHID</td><td style="font-weight:700;font-family:monospace;">' + window.App.esc(patient.uhid) + '</td></tr>' +
+      '<tr><td style="color:#64748B;">Age / Gender</td><td>' + (patient.age || '—') + ' yrs / ' + window.App.esc(patient.gender || '—') + '</td></tr>' +
+      '<tr><td style="color:#64748B;">Consultant</td><td style="font-weight:700;color:#1B3A6B;">' + window.App.esc(doctor) + '</td></tr>' +
+      '<tr><td style="color:#64748B;">Room</td><td style="font-weight:700;color:#0891B2;">' + window.App.esc(room) + '</td></tr>' +
+      '<tr><td style="color:#64748B;">Time Issued</td><td>' + now + '</td></tr></table>' +
+      '<div style="margin-top:16px;text-align:center;font-size:10.5px;color:#64748B;border-top:1px dashed #CBD5E1;padding-top:8px;">' +
+      'Please wait in the waiting lounge until your token number is called on the TV screen.<br/>உங்கள் டோக்கன் எண் திரையில் அழைக்கும் வரை காத்திருக்கவும்.</div>' +
       '</div>';
     const a5 = document.createElement('style');
     a5.id = 'a5-page';

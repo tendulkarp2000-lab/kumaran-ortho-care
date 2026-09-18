@@ -449,13 +449,13 @@
     const today = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
     const area = document.getElementById('print-area');
     area.innerHTML =
-      '<div style="font-family:Segoe UI,Arial,sans-serif;color:#111;max-width:700px;margin:0 auto;padding:20px;">' +
+      '<div style="font-family:Segoe UI,Arial,sans-serif;color:#111;max-width:720px;margin:0 auto;padding:20px;">' +
       '<div style="text-align:center;border-bottom:2px solid #1B3A6B;padding-bottom:10px;margin-bottom:14px;">' +
-      '<h2 style="margin:0;color:#1B3A6B;">Kumaran Robotic Ortho Care</h2>' +
-      '<p style="margin:2px 0;color:#555;font-size:12px;">Dr. P.L. Vijayakumar, MS Ortho — Robotic Joint Replacement Specialist</p>' +
-      '<p style="margin:2px 0;color:#888;font-size:11px;">123 Srirangam Main Road, Trichy - 620006 | +91 431 234 5678</p></div>' +
+      '<img src="/assets/logo.png" style="max-width:380px;height:auto;margin-bottom:6px;" alt="Kumaran Ortho Robotic Centre"/><br/>' +
+      '<p style="margin:2px 0;color:#1B3A6B;font-size:12px;font-weight:700;">Technology • Precision • Better Mobility</p>' +
+      '<p style="margin:2px 0;color:#64748B;font-size:11px;">123 Srirangam Main Road, Trichy - 620006 | Ph: +91 431 234 5678</p></div>' +
       '<div style="display:flex;justify-content:space-between;margin-bottom:12px;">' +
-      '<div><strong>Consultation Report</strong><br/><span style="font-size:12px;color:#555;">Date: ' + today + '</span></div>' +
+      '<div><strong>OPD Consultation & Prescription Slip</strong><br/><span style="font-size:12px;color:#555;">Date: ' + today + '</span></div>' +
       (p ? '<div style="text-align:right;font-size:12px;color:#555;">' + window.App.esc(p.name) + '<br/>UHID: ' + window.App.esc(p.uhid) +
         '<br/>' + window.App.esc(p.gender || '') + ', ' + (p.age || '—') + ' yrs</div>' : '') +
       '</div>' +

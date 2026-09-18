@@ -138,14 +138,19 @@ const RADIOLOGY = [
 
 const CONSULTATION_FEE = 500;
 
-const DOCTORS = [
-  { id: 1, name: 'Dr. P.L. Vijayakumar', spec: 'MS Ortho — Robotic Joint Replacement' },
-  { id: 2, name: 'Dr. S. Prakash', spec: 'Orthopaedic Surgeon — Sports & Trauma' },
-  { id: 3, name: 'Dr. K. Revathi', spec: 'Ortho & Paediatric Spine Care' },
+const DEFAULT_DOCTORS = [
+  { id: 1, name: 'Dr. P.L. Vijayakumar', spec: 'MS Ortho — Robotic Joint Replacement Specialist' },
+  { id: 2, name: 'Dr. Rajkumar', spec: 'MS Ortho — Trauma & Arthroscopy Specialist' },
+  { id: 3, name: 'Dr. Revanth', spec: 'MS Ortho — Spine & Sports Injury Specialist' },
 ];
 
+function getDoctors() {
+  return (store && store.doctors && store.doctors.length) ? store.doctors : DEFAULT_DOCTORS;
+}
+
 function doctorNameById(id) {
-  const d = DOCTORS.find((x) => x.id === Number(id));
+  const list = getDoctors();
+  const d = list.find((x) => x.id === Number(id));
   return d ? d.name : 'Dr. P.L. Vijayakumar';
 }
 
@@ -947,11 +952,30 @@ app.get('/api/dashboard/stats', (req, res) => {
 // ─── API: Dev / misc ─────────────────────────────────────────────────────────
 
 app.get('/api/catalog', (req, res) => {
-  res.json({ medicines: MEDICINES, labTests: LAB_TESTS, radiology: RADIOLOGY, consultationFee: CONSULTATION_FEE, doctors: DOCTORS });
+  res.json({ medicines: MEDICINES, labTests: LAB_TESTS, radiology: RADIOLOGY, consultationFee: CONSULTATION_FEE, doctors: getDoctors() });
 });
 
 app.get('/api/doctors', (req, res) => {
-  res.json({ doctors: DOCTORS });
+  res.json({ doctors: getDoctors() });
+});
+
+app.post('/api/doctors', (req, res) => {
+  const { name, spec } = req.body || {};
+  if (!name) return res.status(400).json({ message: 'Doctor name is required' });
+  if (!store.doctors) store.doctors = DEFAULT_DOCTORS.slice();
+  const nextId = (store.doctors.length ? store.doctors[store.doctors.length - 1].id : 0) + 1;
+  const doc = { id: nextId, name, spec: spec || 'MS Ortho' };
+  store.doctors.push(doc);
+  saveStore();
+  res.status(201).json({ doctor: doc, doctors: store.doctors });
+});
+
+app.delete('/api/doctors/:id', (req, res) => {
+  const id = Number(req.params.id);
+  if (!store.doctors) store.doctors = DEFAULT_DOCTORS.slice();
+  store.doctors = store.doctors.filter((d) => d.id !== id);
+  saveStore();
+  res.json({ doctors: store.doctors });
 });
 
 app.get('/api/queue/display', (req, res) => {

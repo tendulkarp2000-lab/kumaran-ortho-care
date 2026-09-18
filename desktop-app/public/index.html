@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kumaran Robotic Ortho Care — Hospital Management</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B3A6B'/><text x='50' y='68' font-size='48' text-anchor='middle' fill='white' font-family='Arial'>K</text></svg>" />
+</head>
+<body>
+  <!-- Print-only bill area -->
+  <div id="print-area" class="print-area" aria-hidden="true"></div>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-logo">K</div>
+        <div class="brand-text">
+          <div class="brand-name">Kumaran Robotic</div>
+          <div class="brand-sub">Ortho Care</div>
+        </div>
+      </div>
+      <div class="brand-doctor">Dr. P.L. Vijayakumar, MS Ortho</div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-ghost btn-sm" id="reset-data-btn" title="Reset demo data">Reset Demo Data</button>
+        <div class="server-badge" id="server-badge" title="API server">…</div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <section class="main">
+      <header class="topbar">
+        <button class="icon-btn" id="menu-btn" aria-label="Menu">☰</button>
+        <div class="topbar-title">
+          <h1 id="page-title">Dashboard</h1>
+          <span id="page-sub" class="topbar-sub">முகப்பு</span>
+        </div>
+        <div class="topbar-right">
+          <div class="clock" id="clock">—</div>
+          <div class="today-chip" id="today-chip">—</div>
+        </div>
+      </header>
+
+      <main class="content" id="contentView">
+        <div class="loading-hint" id="loadingHint">Loading…</div>
+      </main>
+    </section>
+  </div>
+
+  <!-- Mobile nav drawer overlay -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+
+  <!-- Modal root -->
+  <div class="modal-root" id="modal-root"></div>
+
+  <!-- Toast root -->
+  <div class="toast-root" id="toast-root"></div>
+
+  <script src="js/api.js?v=20260915"></script>
+  <script src="js/app.js?v=20260915"></script>
+  <script src="js/views-dashboard.js?v=20260915"></script>
+  <script src="js/views-registration.js?v=20260915"></script>
+  <script src="js/views-clinical.js?v=20260915"></script>
+  <script src="js/views-admin.js?v=20260915"></script>
+</body>
+</html>

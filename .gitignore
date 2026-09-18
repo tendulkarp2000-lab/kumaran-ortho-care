@@ -1,0 +1,22 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Environment & logs
+.env
+*.log
+npm-debug.log*
+
+# Expo / Mobile build artifacts
+.expo/
+**/.expo/
+dist/
+web-build/
+*.apk
+*.ipa
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

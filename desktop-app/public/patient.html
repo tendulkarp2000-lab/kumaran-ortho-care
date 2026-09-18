@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Kumaran Robotic Ortho Care — Patient App</title>
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1B3A6B" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kumaran Ortho Care" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B3A6B'/><text x='50' y='68' font-size='48' text-anchor='middle' fill='%2360CFEC' font-family='Arial' font-weight='bold'>K</text></svg>" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    :root {
+      --navy: #1B3A6B;
+      --teal: #0891B2;
+      --gold: #D97706;
+      --bg: #F0F4F8;
+    }
+    body {
+      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans Tamil', sans-serif;
+      margin: 0;
+      padding: 0;
+      padding-bottom: 75px;
+      user-select: none;
+    }
+    .m-header {
+      background: linear-gradient(135deg, #0F2550 0%, #1B3A6B 100%);
+      color: #fff;
+      padding: 24px 20px 20px;
+      border-radius: 0 0 24px 24px;
+      box-shadow: 0 4px 20px rgba(27, 58, 107, 0.25);
+    }
+    .m-brand { display: flex; align-items: center; justify-content: space-between; }
+    .m-logo-box { display: flex; align-items: center; gap: 12px; }
+    .m-logo {
+      width: 44px; height: 44px;
+      background: #0891B2;
+      border-radius: 12px;
+      font-size: 24px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
+    }
+    .m-title { font-size: 16px; font-weight: 700; letter-spacing: 0.3px; }
+    .m-sub { font-size: 12px; color: #60CFEC; font-weight: 600; }
+    .m-doc { font-size: 11px; color: rgba(255,255,255,0.75); margin-top: 8px; }
+    
+    .m-patient-card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .container { padding: 16px; }
+
+    /* Token Card */
+    .token-card {
+      background: linear-gradient(135deg, #0891B2 0%, #0369A1 100%);
+      color: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(8, 145, 178, 0.3);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .token-number {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1;
+      margin: 8px 0;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    /* Grid Navigation */
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .grid-btn {
+      background: #fff;
+      border-radius: 18px;
+      padding: 18px 14px;
+      box-shadow: 0 2px 10px rgba(27, 58, 107, 0.06);
+      border: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .grid-btn:active { transform: scale(0.97); }
+    .grid-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+
+    /* Bottom Navbar */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 64px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+      z-index: 100;
+    }
+    .b-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #64748B;
+      cursor: pointer;
+      flex: 1;
+      text-align: center;
+    }
+    .b-item.active { color: #0891B2; }
+    .b-item .b-icon { font-size: 20px; }
+
+    /* Login Screen */
+    .login-box {
+      background: #fff;
+      border-radius: 24px;
+      padding: 24px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(27, 58, 107, 0.08);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <!-- Header -->
+    <header class="m-header">
+      <div class="m-brand">
+        <div class="m-logo-box">
+          <div class="m-logo">K</div>
+          <div>
+            <div class="m-title">Kumaran Robotic</div>
+            <div class="m-sub">ORTHO CARE · TRICHY</div>
+          </div>
+        </div>
+      </div>
+      <div class="m-doc">👨‍⚕️ Dr. P.L. Vijayakumar, MS Ortho (Robotic Joint Replacement)</div>
+
+      <div id="pwa-install-banner" style="display:none;margin-top:10px;background:#FFF7ED;border:1px solid #FDBA74;padding:8px 12px;border-radius:12px;color:#92400E;font-size:12px;align-items:center;justify-content:space-between;">
+        <span>📱 <b>App-ஆக இன்ஸ்டால் செய்ய:</b> மொபைலில் சேர்க்க அழுத்தவும்</span>
+        <button class="btn btn-sm btn-gold" onclick="installPWA()" style="padding:4px 8px;font-size:11px;">Install</button>
+      </div>
+
+      <div class="m-patient-card" id="patient-banner" style="display:none;">
+        <div>
+          <div id="p-name" style="font-weight:700;font-size:15px;">—</div>
+          <div id="p-uhid" style="font-size:11px;color:rgba(255,255,255,0.8);">UHID: —</div>
+        </div>
+        <button class="btn btn-sm btn-ghost" id="logout-btn" style="color:#fff;border:1px solid rgba(255,255,255,0.3);">மாற்று / Switch</button>
+      </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div class="container" id="main-view">
+      <div class="loading-hint"><div class="spinner"></div> ஏற்றுகிறது / Loading…</div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav" id="bottom-nav">
+      <div class="b-item active" onclick="showTab('home')">
+        <span class="b-icon">🏠</span>
+        <span>முகப்பு / Home</span>
+      </div>
+      <div class="b-item" onclick="showTab('book')">
+        <span class="b-icon">📅</span>
+        <span>சந்திப்பு / Book</span>
+      </div>
+      <div class="b-item" onclick="showTab('records')">
+        <span class="b-icon">📋</span>
+        <span>அறிக்கை / Records</span>
+      </div>
+      <div class="b-item" onclick="showTab('bills')">
+        <span class="b-icon">💰</span>
+        <span>பில் / Bills</span>
+      </div>
+    </nav>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script>
+    let activePatient = JSON.parse(localStorage.getItem('koc_patient') || 'null');
+    let currentTab = 'home';
+
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      const b = document.getElementById('pwa-install-banner');
+      if (b) b.style.display = 'flex';
+    });
+
+    function installPWA() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          document.getElementById('pwa-install-banner').style.display = 'none';
+        });
+      }
+    }
+
+    function init() {
+      if (!activePatient) {
+        showLogin();
+      } else {
+        document.getElementById('patient-banner').style.display = 'flex';
+        document.getElementById('p-name').textContent = activePatient.name;
+        document.getElementById('p-uhid').textContent = 'UHID: ' + activePatient.uhid + ' · ' + activePatient.phone;
+        showTab('home');
+      }
+    }
+
+    document.getElementById('logout-btn').onclick = () => {
+      localStorage.removeItem('koc_patient');
+      activePatient = null;
+      document.getElementById('patient-banner').style.display = 'none';
+      showLogin();
+    };
+
+    function showLogin() {
+      document.getElementById('bottom-nav').style.display = 'none';
+      const container = document.getElementById('main-view');
+      container.innerHTML = `
+        <div class="login-box">
+          <h3 style="margin:0 0 4px;color:#1B3A6B;font-size:18px;">நோயாளி நுழைவு / Patient Login</h3>
+          <p style="margin:0 0 16px;color:#64748B;font-size:13px;">உங்கள் பதிவெண் அல்லது கைபேசி எண் மூலம் பார்க்கவும்</p>
+
+          <div class="field">
+            <label>கைபேசி எண் / Mobile Number</label>
+            <input type="tel" id="login-phone" class="input" placeholder="10-digit mobile number" maxlength="10" value="9876543210" />
+          </div>
+
+          <div class="field">
+            <label>அல்லது UHID</label>
+            <input type="text" id="login-uhid" class="input" placeholder="e.g. KOC-0001" />
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%;margin-top:8px;" onclick="doLogin()">🔍 தொடரவும் / Continue</button>
+
+          <div style="margin-top:20px;padding:12px;background:#EFF6FF;border-radius:12px;font-size:12px;color:#1E40AF;">
+            💡 <b>Demo Account:</b> Try phone <code>9876543210</code> or UHID <code>KOC-0001</code>
+          </div>
+        </div>
+      `;
+    }
+
+    async function doLogin() {
+      const phone = document.getElementById('login-phone').value.trim();
+      const uhid = document.getElementById('login-uhid').value.trim();
+
+      try {
+        let p = null;
+        if (uhid) {
+          const res = await window.API.get('/api/patients/uhid/' + uhid);
+          p = res.patient;
+        } else if (phone) {
+          const res = await window.API.get('/api/patients?phone=' + phone);
+          p = res.patients && res.patients[0];
+        }
+
+        if (!p) {
+          alert('நோயாளி விபரம் கிடைக்கவில்லை. பதிவு செய்யவும்.');
+          return;
+        }
+
+        activePatient = p;
+        localStorage.setItem('koc_patient', JSON.stringify(p));
+        document.getElementById('patient-banner').style.display = 'flex';
+        document.getElementById('p-name').textContent = p.name;
+        document.getElementById('p-uhid').textContent = 'UHID: ' + p.uhid + ' · ' + p.phone;
+        document.getElementById('bottom-nav').style.display = 'flex';
+        showTab('home');
+      } catch (err) {
+        alert(err.message || 'Login failed');
+      }
+    }
+
+    function showTab(tab) {
+      currentTab = tab;
+      document.querySelectorAll('.b-item').forEach(el => el.classList.remove('active'));
+      const idx = ['home', 'book', 'records', 'bills'].indexOf(tab);
+      if (idx !== -1) document.querySelectorAll('.b-item')[idx].classList.add('active');
+
+      const container = document.getElementById('main-view');
+      container.innerHTML = '<div class="loading-hint"><div class="spinner"></div> ஏற்றுகிறது...</div>';
+
+      if (tab === 'home') renderHome(container);
+      else if (tab === 'book') renderBook(container);
+      else if (tab === 'records') renderRecords(container);
+      else if (tab === 'bills') renderBills(container);
+    }
+
+    async function renderHome(container) {
+      try {
+        const qStatus = await window.API.get('/api/queue/status?patientId=' + activePatient.id);
+        
+        let statusHtml = '';
+        if (qStatus.yourToken > 0) {
+          const totalAhead = Math.max(1, qStatus.patientsAhead + 1);
+          const percent = qStatus.status === 'Called' ? 100 : Math.max(10, Math.min(90, Math.round((1 - qStatus.patientsAhead / totalAhead) * 100)));
+          
+          statusHtml = `
+            <div class="token-card">
+              <div style="font-size:12px;opacity:0.9;text-transform:uppercase;font-weight:700;">இன்றைய நேரலை வரிசை / Live OPD Queue</div>
+              <div class="flex-between">
+                <div>
+                  <div style="font-size:11px;opacity:0.8;margin-top:4px;">YOUR TOKEN NUMBER</div>
+                  <div class="token-number">#${qStatus.yourToken}</div>
+                </div>
+                <div style="text-align:right;">
+                  <div style="font-size:11px;opacity:0.8;">NOW CALLING</div>
+                  <div style="font-size:32px;font-weight:800;color:#FBBF24;">#${qStatus.currentToken || '—'}</div>
+                </div>
+              </div>
+
+              <!-- Progress Bar -->
+              <div style="background:rgba(255,255,255,0.2);height:10px;border-radius:10px;margin:12px 0 8px;overflow:hidden;">
+                <div style="background:#FBBF24;height:100%;width:${percent}%;transition:width 0.5s ease;border-radius:10px;"></div>
+              </div>
+
+              <div style="font-size:12.5px;font-weight:600;">
+                ${qStatus.status === 'Called' ? '🚨 <b>உங்களை அழைக்கிறார்! ஆலோசனை அறைக்கு செல்லவும்</b>' : `உங்களுக்கு முன்: <b>${qStatus.patientsAhead} நோயாளிகள்</b> (சுமார் ${qStatus.estimatedWaitMinutes} நிமிடம்)`}
+              </div>
+            </div>
+          `;
+        } else {
+          statusHtml = `
+            <div class="card mb16" style="border-left:4px solid #0891B2;">
+              <div style="font-weight:700;color:#1B3A6B;">இன்று சந்திப்பு இல்லை / No Visit Today</div>
+              <div class="small muted" style="margin-top:4px;">புதிய சந்திப்பை பதிவு செய்ய "Book Appointment" அழுத்தவும்.</div>
+            </div>
+          `;
+        }
+
+        container.innerHTML = `
+          ${statusHtml}
+
+          <!-- Apollo / KMC Style Doctor Card -->
+          <div class="card mb16" style="background:linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);border-color:#BFDBFE;">
+            <div class="flex" style="gap:12px;">
+              <div style="width:48px;height:48px;border-radius:14px;background:#1B3A6B;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;">👨‍⚕️</div>
+              <div>
+                <div style="font-weight:800;color:#1B3A6B;font-size:15px;">Dr. P.L. Vijayakumar</div>
+                <div style="font-size:12px;color:#0891B2;font-weight:700;">MS Ortho — Robotic Joint Replacement Specialist</div>
+                <div class="small muted" style="margin-top:2px;">Kumaran Robotic Ortho Care · Trichy</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="font-weight:700;color:#1B3A6B;margin-bottom:10px;font-size:14px;">விரைவு வசதிகள் / Services</div>
+          <div class="nav-grid">
+            <div class="grid-btn" onclick="showTab('book')">
+              <div class="grid-icon" style="background:#EFF6FF;color:#1B3A6B;">📅</div>
+              <div style="font-weight:700;font-size:13px;">சந்திப்பு பதிவு</div>
+              <div style="font-size:10.5px;color:#64748B;">Book Appointment</div>
+            </div>
+            <div class="grid-btn" onclick="showTab('records')">
+              <div class="grid-icon" style="background:#F0FDF4;color:#16A34A;">💊</div>
+              <div style="font-weight:700;font-size:13px;">மருந்து சீட்டு</div>
+              <div style="font-size:10.5px;color:#64748B;">Prescriptions</div>
+            </div>
+            <div class="grid-btn" onclick="showTab('records')">
+              <div class="grid-icon" style="background:#FFF7ED;color:#D97706;">🧪</div>
+              <div style="font-weight:700;font-size:13px;">ஆய்வக அறிக்கை</div>
+              <div style="font-size:10.5px;color:#64748B;">Lab Reports</div>
+            </div>
+            <div class="grid-btn" onclick="showTab('bills')">
+              <div class="grid-icon" style="background:#EDE9FE;color:#7C3AED;">💰</div>
+              <div style="font-weight:700;font-size:13px;">பில் கட்டணம்</div>
+              <div style="font-size:10.5px;color:#64748B;">My Bills</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:10px;">
+            <div class="card-title"><span class="card-title-ico">📞</span> அவசர தொடர்பு / Hospital Contact</div>
+            <div style="font-size:13px;line-height:1.6;">
+              <b>Kumaran Robotic Ortho Care</b><br/>
+              123 Srirangam Main Road, Trichy - 620006<br/>
+              Phone: <b>+91 431 234 5678</b>
+            </div>
+            <div style="display:flex;gap:10px;margin-top:12px;">
+              <a href="tel:+914312345678" class="btn btn-navy btn-sm" style="flex:1;text-decoration:none;text-align:center;">📞 Call Hospital</a>
+              <a href="https://wa.me/914312345678" target="_blank" class="btn btn-gold btn-sm" style="flex:1;text-decoration:none;text-align:center;">💬 WhatsApp</a>
+            </div>
+          </div>
+        `;
+      } catch (e) {
+        container.innerHTML = '<div class="card empty">Failed to load data</div>';
+      }
+    }
+
+    async function renderBook(container) {
+      const today = new Date().toISOString().slice(0,10);
+      const slotsRes = await window.API.get('/api/appointments/slots?date=' + today + '&type=online');
+
+      const slotsHtml = slotsRes.slots.map(s => `
+        <option value="${s.time}" ${!s.available ? 'disabled' : ''}>${s.time} ${s.available ? '(' + s.count + ' spots left online)' : '(Online quota full)'}</option>
+      `).join('');
+
+      container.innerHTML = `
+        <div class="card">
+          <div class="card-title"><span class="card-title-ico">📅</span> புதிய சந்திப்பு பதிவு / Book Appointment</div>
+
+          <div style="background:#EFF6FF;border:1px solid #BFDBFE;padding:10px;border-radius:12px;margin-bottom:14px;font-size:12px;color:#1E40AF;">
+            💡 <b>Online Quota Notice:</b> ஆப்பில் பதிவு செய்ய ஒவ்வொரு 30 நிமிடத்திற்கும் 3 இடங்கள் ஒதுக்கப்பட்டுள்ளன. நேரில் வருபவர்களுக்கு 2 இடங்கள் கவுண்டரில் ஒதுக்கப்படும்.
+          </div>
+
+          <div class="field">
+            <label>மருத்துவர் / Doctor</label>
+            <input class="input" value="Dr. P.L. Vijayakumar (MS Ortho)" readonly style="background:#F8FAFC;" />
+          </div>
+
+          <div class="field">
+            <label>தேதி / Appointment Date</label>
+            <input type="date" id="book-date" class="input" value="${today}" min="${today}" onchange="updateSlots()" />
+          </div>
+
+          <div class="field">
+            <label>நேரம் / Time Slot</label>
+            <select id="book-slot" class="input">${slotsHtml}</select>
+          </div>
+
+          <div class="field">
+            <label>குறிப்பு / Problem Description (Optional)</label>
+            <textarea id="book-notes" class="input" rows="2" placeholder="e.g. Knee pain, review visit..."></textarea>
+          </div>
+
+          <button class="btn btn-primary btn-lg" style="width:100%;" onclick="submitBooking()">✔ முன்பதிவு செய் / Confirm Booking</button>
+        </div>
+      `;
+    }
+
+    async function updateSlots() {
+      const date = document.getElementById('book-date').value;
+      const res = await window.API.get('/api/appointments/slots?date=' + date + '&type=online');
+      const sel = document.getElementById('book-slot');
+      sel.innerHTML = res.slots.map(s => `
+        <option value="${s.time}" ${!s.available ? 'disabled' : ''}>${s.time} ${s.available ? '(' + s.count + ' spots left online)' : '(Online quota full)'}</option>
+      `).join('');
+    }
+
+    async function submitBooking() {
+      const date = document.getElementById('book-date').value;
+      const slot = document.getElementById('book-slot').value;
+      const notes = document.getElementById('book-notes').value.trim();
+
+      if (!slot) return alert('நேரத்தை தேர்வு செய்யவும்');
+
+      try {
+        const res = await window.API.post('/api/appointments', {
+          patientId: activePatient.id,
+          appointmentDate: date,
+          timeSlot: slot,
+          notes,
+          doctorId: 1,
+          bookingType: 'online',
+        });
+        alert('முன்பதிவு வெற்றி! உங்கள் டோக்கன் எண்: #' + res.appointment.tokenNumber + ' (' + slot + ')');
+        showTab('home');
+      } catch (err) {
+        alert(err.message || 'Booking failed');
+      }
+    }
+
+    async function renderRecords(container) {
+      const rxRes = await window.API.get('/api/prescriptions?patientId=' + activePatient.id);
+      const labRes = await window.API.get('/api/lab-orders?patientId=' + activePatient.id);
+      const radRes = await window.API.get('/api/radiology-orders?patientId=' + activePatient.id);
+
+      const rxs = rxRes.prescriptions;
+      const labs = labRes.orders;
+      const rads = radRes.orders;
+
+      container.innerHTML = `
+        <div class="card mb16">
+          <div class="card-title"><span class="card-title-ico">💊</span> மருந்து சீட்டுகள் / Prescriptions (${rxs.length})</div>
+          ${rxs.length ? rxs.map(r => `
+            <div style="border-bottom:1px solid var(--border);padding:10px 0;">
+              <div style="font-weight:700;color:#1B3A6B;">${r.diagnosis}</div>
+              <div class="small muted">${r.visitDate} · Dr. P.L. Vijayakumar</div>
+              <div class="small" style="margin-top:4px;">
+                ${r.medicines.map(m => `• <b>${m.medicineName}</b> (${m.dosage}) — ${m.frequency} (${m.duration})`).join('<br/>')}
+              </div>
+            </div>
+          `).join('') : '<div class="small muted">மருந்து சீட்டுகள் இல்லை</div>'}
+        </div>
+
+        <div class="card mb16">
+          <div class="card-title"><span class="card-title-ico">🧪</span> ஆய்வக முடிவுகள் / Lab Reports (${labs.length})</div>
+          ${labs.length ? labs.map(l => `
+            <div style="border-bottom:1px solid var(--border);padding:10px 0;">
+              <div class="flex-between">
+                <b>Order #${l.id}</b>
+                <span class="chip ${l.status==='Completed'?'chip-success':'chip-warning'}">${l.status}</span>
+              </div>
+              <div class="small muted">${l.orderedDate}</div>
+              <div class="small" style="margin-top:4px;">
+                ${l.testItems.map(t => `• ${t.testName}: <b>${t.result || 'Pending'}</b> ${t.unit || ''} ${t.isAbnormal ? '⚠️ Abnormal' : ''}`).join('<br/>')}
+              </div>
+            </div>
+          `).join('') : '<div class="small muted">ஆய்வக முடிவுகள் இல்லை</div>'}
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span class="card-title-ico">📷</span> X-Ray & Scans (${rads.length})</div>
+          ${rads.length ? rads.map(r => `
+            <div style="border-bottom:1px solid var(--border);padding:10px 0;">
+              <div class="flex-between">
+                <b>${r.modalityType} — ${r.bodyPart}</b>
+                <span class="chip ${r.status==='Completed'?'chip-success':'chip-warning'}">${r.status}</span>
+              </div>
+              <div class="small muted">${r.orderedDate}</div>
+              ${r.impression ? `<div class="small" style="margin-top:4px;color:#1B3A6B;"><b>Impression:</b> ${r.impression}</div>` : ''}
+            </div>
+          `).join('') : '<div class="small muted">ஸ்கேன் முடிவுகள் இல்லை</div>'}
+        </div>
+      `;
+    }
+
+    async function renderBills(container) {
+      const res = await window.API.get('/api/bills?patientId=' + activePatient.id);
+      const bills = res.bills;
+
+      container.innerHTML = `
+        <div class="card">
+          <div class="card-title"><span class="card-title-ico">💰</span> பில்கள் & கட்டணம் / My Bills (${bills.length})</div>
+          ${bills.length ? bills.map(b => `
+            <div style="border-bottom:1px solid var(--border);padding:12px 0;">
+              <div class="flex-between">
+                <b>Bill #${b.id}</b>
+                <span class="chip ${b.paymentStatus==='Paid'?'chip-success':'chip-danger'}">${b.paymentStatus}</span>
+              </div>
+              <div class="small muted">${b.billDate}</div>
+              <div style="margin-top:6px;font-size:13px;">
+                ${b.billItems.map(i => `• ${i.description}: ₹${i.amount * i.quantity}`).join('<br/>')}
+              </div>
+              <div class="flex-between" style="margin-top:8px;font-weight:700;font-size:14px;color:#1B3A6B;">
+                <span>மொத்தத் தொகை / Total</span>
+                <span>₹${b.totalAmount}</span>
+              </div>
+            </div>
+          `).join('') : '<div class="small muted">பில்கள் இல்லை</div>'}
+        </div>
+      `;
+    }
+
+    init();
+  </script>
+</body>
+</html>

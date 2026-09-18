@@ -1,0 +1,531 @@
+{
+  "patients": [
+    {
+      "id": 1,
+      "uhid": "KOC-0001",
+      "name": "Demo Patient",
+      "phone": "9876543210",
+      "age": 45,
+      "gender": "Male",
+      "bloodGroup": "O+",
+      "address": "Trichy, Tamil Nadu"
+    },
+    {
+      "id": 2,
+      "uhid": "KOC-0002",
+      "name": "Arul Kumar",
+      "phone": "9765432101",
+      "age": 58,
+      "gender": "Male",
+      "bloodGroup": "B+",
+      "address": "4, Gandhi Nagar, Trichy"
+    },
+    {
+      "id": 3,
+      "uhid": "KOC-0003",
+      "name": "Meena Ravi",
+      "phone": "9654321098",
+      "age": 52,
+      "gender": "Female",
+      "bloodGroup": "A+",
+      "address": "12, Woraiyur, Trichy"
+    },
+    {
+      "id": 4,
+      "uhid": "KOC-0004",
+      "name": "Suresh Babu",
+      "phone": "9543210987",
+      "age": 63,
+      "gender": "Male",
+      "bloodGroup": "AB+",
+      "address": "7, Karur Road, Trichy"
+    }
+  ],
+  "appointments": [
+    {
+      "id": 1,
+      "patientId": 2,
+      "patientName": "Arul Kumar",
+      "tokenNumber": 1,
+      "appointmentDate": "2026-09-18",
+      "timeSlot": "09:00 AM",
+      "status": "Waiting",
+      "notes": "",
+      "doctorId": 1,
+      "doctorName": "Dr. P.L. Vijayakumar"
+    },
+    {
+      "id": 2,
+      "patientId": 1,
+      "patientName": "Demo Patient",
+      "tokenNumber": 2,
+      "appointmentDate": "2026-09-18",
+      "timeSlot": "09:30 AM",
+      "status": "Waiting",
+      "notes": "",
+      "doctorId": 1,
+      "doctorName": "Dr. P.L. Vijayakumar"
+    },
+    {
+      "id": 3,
+      "patientId": 3,
+      "patientName": "Meena Ravi",
+      "tokenNumber": 3,
+      "appointmentDate": "2026-09-18",
+      "timeSlot": "10:00 AM",
+      "status": "Called",
+      "notes": "",
+      "doctorId": 2,
+      "doctorName": "Dr. S. Prakash"
+    },
+    {
+      "id": 4,
+      "patientId": 4,
+      "patientName": "Suresh Babu",
+      "tokenNumber": 4,
+      "appointmentDate": "2026-09-18",
+      "timeSlot": "10:30 AM",
+      "status": "Waiting",
+      "notes": "",
+      "doctorId": 3,
+      "doctorName": "Dr. K. Revathi"
+    },
+    {
+      "id": 5,
+      "patientId": 1,
+      "patientName": "Demo Patient",
+      "tokenNumber": 7,
+      "appointmentDate": "2026-09-14",
+      "timeSlot": "11:00 AM",
+      "status": "Completed",
+      "notes": "",
+      "doctorId": 1,
+      "doctorName": "Dr. P.L. Vijayakumar"
+    }
+  ],
+  "prescriptions": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "visitDate": "2026-09-14",
+      "diagnosis": "Osteoarthritis - Right Knee",
+      "notes": "Rest advised. Avoid weight bearing activities.",
+      "medicines": [
+        {
+          "id": 1,
+          "medicineName": "Tab. Diclofenac 50mg",
+          "dosage": "50mg",
+          "frequency": "Twice daily",
+          "duration": "5 days",
+          "instructions": "After food"
+        },
+        {
+          "id": 2,
+          "medicineName": "Tab. Pantoprazole 40mg",
+          "dosage": "40mg",
+          "frequency": "Once daily",
+          "duration": "5 days",
+          "instructions": "Before food"
+        }
+      ],
+      "dispensed": true
+    }
+  ],
+  "labOrders": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "orderedDate": "2026-09-14",
+      "status": "Completed",
+      "testItems": [
+        {
+          "id": 1,
+          "testName": "CBC (Complete Blood Count)",
+          "result": "14.2",
+          "unit": "g/dL",
+          "normalRange": "13.5-17.5",
+          "status": "Completed",
+          "isAbnormal": false
+        },
+        {
+          "id": 2,
+          "testName": "ESR",
+          "result": "38",
+          "unit": "mm/hr",
+          "normalRange": "0-20",
+          "status": "Completed",
+          "isAbnormal": true
+        },
+        {
+          "id": 3,
+          "testName": "CRP",
+          "result": "12.4",
+          "unit": "mg/L",
+          "normalRange": "<5",
+          "status": "Completed",
+          "isAbnormal": true
+        }
+      ]
+    }
+  ],
+  "radiologyOrders": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "orderedDate": "2026-09-14",
+      "modalityType": "X-Ray",
+      "bodyPart": "Right Knee (AP & Lateral)",
+      "status": "Completed",
+      "findings": "Mild joint space narrowing seen in the medial compartment. No fractures.",
+      "impression": "Grade II Osteoarthritis of right knee"
+    }
+  ],
+  "bills": [
+    {
+      "id": 1,
+      "patientId": 1,
+      "billDate": "2026-09-14",
+      "totalAmount": 2500,
+      "paidAmount": 2500,
+      "paymentStatus": "Paid",
+      "paymentMode": "UPI",
+      "billItems": [
+        {
+          "id": 1,
+          "description": "OPD Consultation - Dr. Vijayakumar",
+          "category": "Consultation",
+          "amount": 500,
+          "quantity": 1
+        },
+        {
+          "id": 2,
+          "description": "X-Ray Right Knee (2 views)",
+          "category": "Radiology",
+          "amount": 800,
+          "quantity": 1
+        },
+        {
+          "id": 3,
+          "description": "Lab Tests (CBC, ESR, CRP)",
+          "category": "Lab",
+          "amount": 700,
+          "quantity": 1
+        },
+        {
+          "id": 4,
+          "description": "Medicines",
+          "category": "Medicine",
+          "amount": 500,
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "patientId": 0,
+      "patientName": "Walk-in OTC Test",
+      "phone": "9800011122",
+      "billDate": "2026-09-18",
+      "totalAmount": 12,
+      "paidAmount": 12,
+      "paymentStatus": "Paid",
+      "paymentMode": "Cash",
+      "billItems": [
+        {
+          "id": 1,
+          "description": "Tab. Paracetamol 650mg (OTC)",
+          "category": "Medicine",
+          "amount": 6,
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "patientId": 0,
+      "patientName": "Walk-in OTC Test",
+      "phone": "9800011122",
+      "billDate": "2026-09-18",
+      "totalAmount": 12,
+      "paidAmount": 12,
+      "paymentStatus": "Paid",
+      "paymentMode": "Cash",
+      "billItems": [
+        {
+          "id": 1,
+          "description": "Tab. Paracetamol 650mg (OTC)",
+          "category": "Medicine",
+          "amount": 6,
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "patientId": 0,
+      "patientName": "Walk-in OTC Test",
+      "phone": "9800011122",
+      "billDate": "2026-09-18",
+      "totalAmount": 12,
+      "paidAmount": 12,
+      "paymentStatus": "Paid",
+      "paymentMode": "Cash",
+      "billItems": [
+        {
+          "id": 1,
+          "description": "Tab. Paracetamol 650mg (OTC)",
+          "category": "Medicine",
+          "amount": 6,
+          "quantity": 2
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "patientId": 0,
+      "patientName": "Walk-in OTC Test",
+      "phone": "9800011122",
+      "billDate": "2026-09-18",
+      "totalAmount": 12,
+      "paidAmount": 12,
+      "paymentStatus": "Paid",
+      "paymentMode": "Cash",
+      "billItems": [
+        {
+          "id": 1,
+          "description": "Tab. Paracetamol 650mg (OTC)",
+          "category": "Medicine",
+          "amount": 6,
+          "quantity": 2
+        }
+      ]
+    }
+  ],
+  "pharmacyInventory": [
+    {
+      "id": 1,
+      "name": "Tab. Paracetamol 650mg",
+      "batchNo": "PCM-2026-08",
+      "expiryDate": "2027-12-31",
+      "stockQty": 442,
+      "purchasePrice": 3.5,
+      "sellingPrice": 6,
+      "gstPercent": 12
+    },
+    {
+      "id": 2,
+      "name": "Tab. Diclofenac 50mg",
+      "batchNo": "DIC-2026-04",
+      "expiryDate": "2027-08-31",
+      "stockQty": 320,
+      "purchasePrice": 7,
+      "sellingPrice": 12,
+      "gstPercent": 12
+    },
+    {
+      "id": 3,
+      "name": "Tab. Pantoprazole 40mg",
+      "batchNo": "PAN-2026-09",
+      "expiryDate": "2027-10-31",
+      "stockQty": 280,
+      "purchasePrice": 9,
+      "sellingPrice": 15,
+      "gstPercent": 12
+    },
+    {
+      "id": 4,
+      "name": "Tab. Calcium + Vitamin D3",
+      "batchNo": "CAL-2026-01",
+      "expiryDate": "2028-01-31",
+      "stockQty": 180,
+      "purchasePrice": 42,
+      "sellingPrice": 65,
+      "gstPercent": 12
+    },
+    {
+      "id": 5,
+      "name": "Tab. Aceclofenac 100mg",
+      "batchNo": "ACE-2026-05",
+      "expiryDate": "2027-09-30",
+      "stockQty": 210,
+      "purchasePrice": 8.5,
+      "sellingPrice": 14,
+      "gstPercent": 12
+    },
+    {
+      "id": 6,
+      "name": "Knee Cap (Medium)",
+      "batchNo": "KNC-2026-02",
+      "expiryDate": "2030-01-01",
+      "stockQty": 45,
+      "purchasePrice": 280,
+      "sellingPrice": 450,
+      "gstPercent": 18
+    },
+    {
+      "id": 7,
+      "name": "Cap. Gabapentin 300mg",
+      "batchNo": "GAB-2026-03",
+      "expiryDate": "2027-06-30",
+      "stockQty": 150,
+      "purchasePrice": 28,
+      "sellingPrice": 45,
+      "gstPercent": 12
+    },
+    {
+      "id": 8,
+      "name": "Inj. Diclofenac (IM)",
+      "batchNo": "INJ-2026-11",
+      "expiryDate": "2027-05-31",
+      "stockQty": 90,
+      "purchasePrice": 20,
+      "sellingPrice": 35,
+      "gstPercent": 12
+    },
+    {
+      "id": 9,
+      "name": "Cap. Amoxicillin 500mg",
+      "batchNo": "AMX-2026",
+      "expiryDate": "2027-12-31",
+      "stockQty": 800,
+      "purchasePrice": 15,
+      "sellingPrice": 28,
+      "gstPercent": 12
+    }
+  ],
+  "radiologyPositions": [
+    "AP View (Anteroposterior)",
+    "Lateral View",
+    "PA View (Posteroanterior)",
+    "Oblique View",
+    "Skyline / Sunrise View (Patella)",
+    "Weight-Bearing AP (Knee / Spine)",
+    "Flexion & Extension Lateral (Spine)",
+    "Axial View (Shoulder / Hip)",
+    "Skyline View (Patella 45 Deg)"
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "date": "2026-09-18",
+      "category": "Tea & Coffee (Staff & OPD)",
+      "amount": 240,
+      "paymentMode": "Cash",
+      "voucherNo": "V-001",
+      "notes": "Daily tea vendor payment"
+    },
+    {
+      "id": 2,
+      "date": "2026-09-18",
+      "category": "Cleaning & Bio-Waste Material",
+      "amount": 850,
+      "paymentMode": "Cash",
+      "voucherNo": "V-002",
+      "notes": "Disinfectant & waste bags"
+    },
+    {
+      "id": 1,
+      "date": "2026-09-18",
+      "category": "Oxygen Refill",
+      "amount": 450,
+      "paymentMode": "Cash",
+      "voucherNo": "V-TEST-99",
+      "notes": "Emergency ICU refill"
+    },
+    {
+      "id": 2,
+      "date": "2026-09-18",
+      "category": "Oxygen Refill",
+      "amount": 450,
+      "paymentMode": "Cash",
+      "voucherNo": "V-TEST-99",
+      "notes": "Emergency ICU refill"
+    },
+    {
+      "id": 3,
+      "date": "2026-09-18",
+      "category": "Oxygen Refill",
+      "amount": 450,
+      "paymentMode": "Cash",
+      "voucherNo": "V-TEST-99",
+      "notes": "Emergency ICU refill"
+    },
+    {
+      "id": 4,
+      "date": "2026-09-18",
+      "category": "Oxygen Refill",
+      "amount": 450,
+      "paymentMode": "Cash",
+      "voucherNo": "V-TEST-99",
+      "notes": "Emergency ICU refill"
+    }
+  ],
+  "staff": [
+    {
+      "id": 1,
+      "name": "Dr. P.L. Vijayakumar",
+      "role": "Chief Ortho Surgeon",
+      "phone": "9842412345",
+      "monthlySalary": 150000
+    },
+    {
+      "id": 2,
+      "name": "R. Kausalya",
+      "role": "Head Nurse / Receptionist",
+      "phone": "9789012345",
+      "monthlySalary": 22000
+    },
+    {
+      "id": 3,
+      "name": "M. Senthil",
+      "role": "Pharmacist",
+      "phone": "9678901234",
+      "monthlySalary": 25000
+    },
+    {
+      "id": 4,
+      "name": "K. Anand",
+      "role": "Radiographer / X-Ray Tech",
+      "phone": "9567890123",
+      "monthlySalary": 24000
+    },
+    {
+      "id": 5,
+      "name": "S. Lakshmi",
+      "role": "Lab Technician",
+      "phone": "9456789012",
+      "monthlySalary": 20000
+    },
+    {
+      "id": 6,
+      "name": "P. Murugan",
+      "role": "Support & Housekeeping",
+      "phone": "9345678901",
+      "monthlySalary": 14000
+    }
+  ],
+  "attendance": [
+    {
+      "staffId": 1,
+      "date": "2026-09-18",
+      "status": "Present",
+      "checkInTime": "09:00 AM"
+    },
+    {
+      "staffId": 2,
+      "date": "2026-09-18",
+      "status": "Present",
+      "checkInTime": "09:00 AM"
+    }
+  ],
+  "seq": {
+    "patient": 4,
+    "appointment": 5,
+    "prescription": 1,
+    "labOrder": 1,
+    "radiologyOrder": 1,
+    "bill": 5,
+    "expense": 4
+  },
+  "seededAt": "2026-09-18"
+}

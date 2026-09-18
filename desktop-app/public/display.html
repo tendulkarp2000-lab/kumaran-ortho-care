@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kumaran Ortho Care — Token Display</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: radial-gradient(ellipse at top, #14294d 0%, #0b1830 70%);
+      color: #fff;
+      overflow: hidden;
+    }
+    .wrap { height: 100vh; display: flex; flex-direction: column; padding: 22px 34px; }
+    .head {
+      display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 3px solid #D97706; padding-bottom: 12px; margin-bottom: 18px;
+    }
+    .brand .name { font-size: 34px; font-weight: 800; color: #fff; letter-spacing: 0.5px; }
+    .brand .name em { font-style: normal; color: #FBBF24; }
+    .brand .sub { font-size: 15px; color: #7DD3FC; margin-top: 2px; }
+    .clock { text-align: right; }
+    .clock .time { font-size: 40px; font-weight: 700; color: #FBBF24; font-variant-numeric: tabular-nums; }
+    .clock .date { font-size: 16px; color: #9FB4D6; }
+    .mid { flex: 1; display: flex; gap: 26px; min-height: 0; }
+    .calling { flex: 1.25; display: flex; flex-direction: column; background: #0f2242; border: 2px solid #1E3A66; border-radius: 22px; padding: 26px; overflow: hidden; }
+    .calling .tag { font-size: 19px; letter-spacing: 4px; color: #FBBF24; font-weight: 700; text-transform: uppercase; }
+    .calling .big-token { font-size: 190px; font-weight: 900; color: #fff; line-height: 0.95; text-shadow: 0 0 40px rgba(251,191,36,0.35); }
+    .calling .name { font-size: 46px; font-weight: 700; color: #fff; }
+    .calling .doc { font-size: 24px; color: #7DD3FC; margin-top: 6px; }
+    .calling .hint { margin-top: 10px; font-size: 17px; color: #94A9CC; }
+    .right { flex: 0.75; display: flex; flex-direction: column; gap: 18px; min-height: 0; }
+    .next-box { background: #0f2242; border: 2px solid #1E3A66; border-radius: 18px; padding: 18px 22px; }
+    .next-box .lbl { font-size: 15px; letter-spacing: 2px; color: #7DD3FC; font-weight: 700; text-transform: uppercase; }
+    .next-box .val { display: flex; align-items: center; gap: 14px; margin-top: 6px; }
+    .next-box .tok { font-size: 64px; font-weight: 900; color: #FBBF24; }
+    .next-box .nm { font-size: 26px; font-weight: 700; }
+    .next-box .dm { font-size: 17px; color: #9FB4D6; }
+    .queue { flex: 1; background: #0f2242; border: 2px solid #1E3A66; border-radius: 18px; padding: 18px 22px; display: flex; flex-direction: column; min-height: 0; }
+    .queue .ql { font-size: 15px; letter-spacing: 2px; color: #FBBF24; font-weight: 700; text-transform: uppercase; margin-bottom: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 19px; }
+    th { text-align: left; color: #7DD3FC; font-size: 15px; text-transform: uppercase; letter-spacing: 1px; padding: 6px 8px; border-bottom: 1px solid #1E3A66; }
+    td { padding: 7px 8px; border-bottom: 1px solid #16294F; }
+    td.tok { font-weight: 800; color: #FBBF24; width: 70px; }
+    .status-chip { font-size: 14px; padding: 2px 10px; border-radius: 20px; font-weight: 700; }
+    .c-called { background: #D97706; color: #fff; }
+    .c-waiting { background: #1E3A66; color: #BFDBFE; }
+    .foot { margin-top: 14px; text-align: center; font-size: 15px; color: #7B90B5; }
+    .offline { position: fixed; top: 0; left: 0; right: 0; background: #B91C1C; color: #fff; text-align: center; padding: 8px; font-weight: 700; display: none; }
+  </style>
+</head>
+<body>
+  <div class="offline" id="offline">⚠ Server offline — reconnecting…</div>
+  <div class="wrap">
+    <header class="head">
+      <div class="brand">
+        <div class="name">Kumaran <em>Robotic</em> Ortho Care</div>
+        <div class="sub">Dr. P.L. Vijayakumar, MS Ortho — Trichy · குமரன் ரோபோடிக் எலும்பு மருத்துவமனை</div>
+      </div>
+      <div class="clock">
+        <div class="time" id="clock">—</div>
+        <div class="date" id="date">—</div>
+      </div>
+    </header>
+
+    <div class="mid">
+      <section class="calling" id="calling">
+        <div class="tag">Now Calling · இப்போது அழைப்பு</div>
+        <div class="big-token" id="c-token">—</div>
+        <div class="name" id="c-name">Waiting for patients…</div>
+        <div class="doc" id="c-doc">&nbsp;</div>
+        <div class="hint">Please proceed to the consultation room | ஆலோசனை அறைக்கு வரவும்</div>
+      </section>
+
+      <div class="right">
+        <div class="next-box">
+          <div class="lbl">Next · அடுத்தவர்</div>
+          <div class="val"><span class="tok" id="n-token">—</span><div><div class="nm" id="n-name">—</div><div class="dm" id="n-doc">&nbsp;</div></div></div>
+        </div>
+        <div class="queue">
+          <div class="ql">Upcoming Queue · வரிசை (<span id="q-count">0</span>)</div>
+          <div style="flex:1;overflow:hidden;" id="q-list">
+            <table>
+              <thead><tr><th>Token</th><th>Patient</th><th>Doctor</th><th>Slot</th><th>Status</th></tr></thead>
+              <tbody id="q-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="foot">Kumaran Robotic Ortho Care — Your Health, Our Mission · உங்கள் ஆரோக்கியமே எங்கள் குறிக்கோள்</div>
+  </div>
+
+  <script>
+    (function () {
+      var lastCalledToken = null;
+
+      function esc(s) {
+        return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      }
+
+      function clock() {
+        var d = new Date();
+        document.getElementById('clock').textContent = d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        document.getElementById('date').textContent = d.toLocaleDateString('en-IN', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+      }
+      clock(); setInterval(clock, 1000);
+
+      // ── Audio alert when token changes ──────────────────────
+      function playBeep() {
+        try {
+          var ctx = new (window.AudioContext || window.webkitAudioContext)();
+          [523, 659, 784].forEach(function (freq, i) {
+            var o = ctx.createOscillator();
+            var g = ctx.createGain();
+            o.connect(g); g.connect(ctx.destination);
+            o.type = 'sine';
+            o.frequency.value = freq;
+            g.gain.setValueAtTime(0.3, ctx.currentTime + i * 0.18);
+            g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + i * 0.18 + 0.4);
+            o.start(ctx.currentTime + i * 0.18);
+            o.stop(ctx.currentTime + i * 0.18 + 0.5);
+          });
+        } catch (e) {}
+      }
+
+      // ── Text-to-speech Tamil/English announcement ───────────
+      function announce(tokenNum, patientName) {
+        if (!window.speechSynthesis) return;
+        var utterance = new SpeechSynthesisUtterance('Token number ' + tokenNum + ', ' + patientName + ', please proceed to the consultation room.');
+        utterance.lang = 'en-IN';
+        utterance.rate = 0.85;
+        utterance.volume = 1;
+        window.speechSynthesis.speak(utterance);
+      }
+
+      function render(data) {
+        var offline = document.getElementById('offline');
+        offline.style.display = 'none';
+
+        var now = data.nowCalling;
+        document.getElementById('c-token').textContent = now ? '#' + now.tokenNumber : '—';
+        document.getElementById('c-name').textContent = now ? now.patientName : 'காத்திருக்கிறோம்… / Waiting for patients…';
+        document.getElementById('c-doc').textContent = now ? (now.doctorName || '') + ' · Token #' + now.tokenNumber : '';
+
+        if (now && now.tokenNumber !== lastCalledToken) {
+          lastCalledToken = now.tokenNumber;
+          flash();
+          playBeep();
+          setTimeout(function () { announce(now.tokenNumber, now.patientName); }, 600);
+        }
+
+        var nxt = data.nextUp;
+        document.getElementById('n-token').textContent = nxt ? '#' + nxt.tokenNumber : '—';
+        document.getElementById('n-name').textContent = nxt ? nxt.patientName : '—';
+        document.getElementById('n-doc').textContent = nxt ? (nxt.doctorName || '') + ' · ' + (nxt.timeSlot || '') : '';
+
+        document.getElementById('q-count').textContent = data.waitingCount || 0;
+        var rows = data.displayRows || [];
+        var waitingOnly = rows.filter(function (r) { return r.status === 'Waiting' || r.status === 'Scheduled'; });
+        var calledOnly = rows.filter(function (r) { return r.status === 'Called'; });
+        var both = calledOnly.concat(waitingOnly);
+        if (!both.length) {
+          document.getElementById('q-body').innerHTML = '<tr><td colspan="5" style="color:#7B90B5;text-align:center;padding:20px;">Queue is clear 🎉 · வரிசை காலி</td></tr>';
+          return;
+        }
+        document.getElementById('q-body').innerHTML = both.slice(0, 8).map(function (r) {
+          var chip = r.status === 'Called'
+            ? '<span class="status-chip c-called">🔔 Calling · அழைக்கப்படுகிறார்</span>'
+            : '<span class="status-chip c-waiting">⏳ Waiting</span>';
+          return '<tr><td class="tok">#' + r.tokenNumber + '</td><td>' + esc(r.patientName) + '</td>' +
+            '<td>' + esc((r.doctorName || '').replace('Dr. ', '')) + '</td><td>' + esc(r.timeSlot) + '</td><td>' + chip + '</td></tr>';
+        }).join('');
+      }
+
+      function flash() {
+        var el = document.getElementById('calling');
+        el.style.transition = 'none';
+        el.style.borderColor = '#FBBF24';
+        el.style.background = '#1a3300';
+        el.style.boxShadow = '0 0 80px rgba(251,191,36,0.6)';
+        setTimeout(function () {
+          el.style.transition = 'all 2s ease';
+          el.style.borderColor = '#1E3A66';
+          el.style.background = '#0f2242';
+          el.style.boxShadow = 'none';
+        }, 2000);
+      }
+
+      async function poll() {
+        try {
+          var r = await fetch('/api/queue/display');
+          if (!r.ok) throw new Error('bad status');
+          var data = await r.json();
+          render(data);
+        } catch (e) {
+          document.getElementById('offline').style.display = 'block';
+        }
+      }
+
+      poll();
+      setInterval(poll, 3000); // Poll every 3 seconds for real-time display
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{
+  "expo": {
+    "name": "Kumaran Ortho Care",
+    "slug": "kumaran-ortho-care",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "in.kumaranortho.patient",
+      "infoPlist": {
+        "NSCameraUsageDescription": "To scan QR codes for appointment verification.",
+        "NSPhotoLibraryUsageDescription": "To upload or view scan images."
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#1B3A6B"
+      },
+      "package": "in.kumaranortho.patient",
+      "permissions": [
+        "RECEIVE_BOOT_COMPLETED",
+        "VIBRATE",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "color": "#1B3A6B",
+          "defaultChannel": "queue-alerts"
+        }
+      ],
+      "expo-sharing",
+      "expo-font",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "resizeMode": "contain",
+          "backgroundColor": "#1B3A6B"
+        }
+      ]
+    ],
+    "extra": {
+      "defaultServerUrl": "http://localhost:3001"
+    }
+  }
+}

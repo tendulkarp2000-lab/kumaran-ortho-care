@@ -1,0 +1,17 @@
+{
+  "short_name": "KumaranOrtho",
+  "name": "Kumaran Robotic Ortho Care",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231B3A6B'/><text x='50' y='68' font-size='48' text-anchor='middle' fill='%2360CFEC' font-family='Arial' font-weight='bold'>K</text></svg>",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/patient.html",
+  "background_color": "#1B3A6B",
+  "theme_color": "#1B3A6B",
+  "display": "standalone",
+  "orientation": "portrait"
+}
